@@ -1,10 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-    :author: Grey Li (李辉)
-    :url: http://greyli.com
-    :copyright: © 2018 Grey Li <withlihui@gmail.com>
-    :license: MIT, see LICENSE for more details.
-"""
 import random
 
 from faker import Faker
@@ -17,19 +10,27 @@ fake = Faker()
 
 
 def fake_admin():
+    '''
+    生成虚拟管理员信息
+
+    '''
     admin = Admin(
         username='admin',
         blog_title='Bluelog',
-        blog_sub_title="No, I'm the real thing.",
-        name='Mima Kirigoe',
-        about='Um, l, Mima Kirigoe, had a fun time as a member of CHAM...'
+        blog_sub_title="Jupyter notebook使用...",
+        name='雨轩恋i',
+        about='雨轩恋i,何许人也?祖籍河东也,少小离家,奔波劳碌二十年也,终有一番事业。'
     )
-    admin.set_password('helloflask')
+    admin.set_password('ltf1234')
     db.session.add(admin)
     db.session.commit()
 
 
 def fake_categories(count=10):
+    '''
+    生成虚拟分类
+
+    '''
     category = Category(name='Default')
     db.session.add(category)
 
@@ -43,6 +44,9 @@ def fake_categories(count=10):
 
 
 def fake_posts(count=50):
+    '''
+    生成虚拟文章
+    '''
     for i in range(count):
         post = Post(
             title=fake.sentence(),
@@ -56,6 +60,9 @@ def fake_posts(count=50):
 
 
 def fake_comments(count=500):
+    '''
+    生成虚拟评论
+    '''
     for i in range(count):
         comment = Comment(
             author=fake.name(),
@@ -70,7 +77,7 @@ def fake_comments(count=500):
 
     salt = int(count * 0.1)
     for i in range(salt):
-        # unreviewed comments
+        # 未审核评论
         comment = Comment(
             author=fake.name(),
             email=fake.email(),
@@ -82,11 +89,11 @@ def fake_comments(count=500):
         )
         db.session.add(comment)
 
-        # from admin
+        # 管理员发表评论
         comment = Comment(
-            author='Mima Kirigoe',
-            email='mima@example.com',
-            site='example.com',
+            author='雨轩恋i',
+            email='18235121656@163.com',
+            site='tyutltf.com',
             body=fake.sentence(),
             timestamp=fake.date_time_this_year(),
             from_admin=True,
@@ -96,7 +103,7 @@ def fake_comments(count=500):
         db.session.add(comment)
     db.session.commit()
 
-    # replies
+    # 回复
     for i in range(salt):
         comment = Comment(
             author=fake.name(),
@@ -113,9 +120,9 @@ def fake_comments(count=500):
 
 
 def fake_links():
-    twitter = Link(name='Twitter', url='#')
-    facebook = Link(name='Facebook', url='#')
-    linkedin = Link(name='LinkedIn', url='#')
-    google = Link(name='Google+', url='#')
+    twitter = Link(name='推特', url='#')
+    facebook = Link(name='脸书', url='#')
+    linkedin = Link(name='领英', url='#')
+    google = Link(name='谷歌', url='#')
     db.session.add_all([twitter, facebook, linkedin, google])
     db.session.commit()

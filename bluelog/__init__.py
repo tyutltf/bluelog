@@ -1,10 +1,4 @@
-# -*- coding: utf-8 -*-
-"""
-    :author: Grey Li (李辉)
-    :url: http://greyli.com
-    :copyright: © 2018 Grey Li <withlihui@gmail.com>
-    :license: MIT, see LICENSE for more details.
-"""
+
 import logging
 import os
 from logging.handlers import SMTPHandler, RotatingFileHandler
@@ -140,11 +134,11 @@ def register_commands(app):
     def initdb(drop):
         """Initialize the database."""
         if drop:
-            click.confirm('This operation will delete the database, do you want to continue?', abort=True)
+            click.confirm('此操作将删除数据库, 你确定要继续吗?', abort=True)
             db.drop_all()
-            click.echo('Drop tables.')
+            click.echo('删除表.')
         db.create_all()
-        click.echo('Initialized database.')
+        click.echo('初始化数据库.')
 
     @app.cli.command()
     @click.option('--username', prompt=True, help='The username used to login.')
@@ -153,16 +147,16 @@ def register_commands(app):
     def init(username, password):
         """Building Bluelog, just for you."""
 
-        click.echo('Initializing the database...')
+        click.echo('正在初始化数据库...')
         db.create_all()
 
         admin = Admin.query.first()
         if admin is not None:
-            click.echo('The administrator already exists, updating...')
+            click.echo('管理员已存在, 更新中...')
             admin.username = username
             admin.set_password(password)
         else:
-            click.echo('Creating the temporary administrator account...')
+            click.echo('创建临时管理员账户...')
             admin = Admin(
                 username=username,
                 blog_title='Bluelog',
@@ -175,40 +169,40 @@ def register_commands(app):
 
         category = Category.query.first()
         if category is None:
-            click.echo('Creating the default category...')
+            click.echo('创建默认分类...')
             category = Category(name='Default')
             db.session.add(category)
 
         db.session.commit()
-        click.echo('Done.')
+        click.echo('完成.')
 
     @app.cli.command()
-    @click.option('--category', default=10, help='Quantity of categories, default is 10.')
-    @click.option('--post', default=50, help='Quantity of posts, default is 50.')
-    @click.option('--comment', default=500, help='Quantity of comments, default is 500.')
+    @click.option('--category', default=10, help='分类数量, 默认是10.')
+    @click.option('--post', default=50, help='文章数量, 默认是50.')
+    @click.option('--comment', default=500, help='评论数量, 默认是500.')
     def forge(category, post, comment):
-        """Generate fake data."""
+        """构造虚拟数据"""
         from bluelog.fakes import fake_admin, fake_categories, fake_posts, fake_comments, fake_links
 
         db.drop_all()
         db.create_all()
 
-        click.echo('Generating the administrator...')
+        click.echo('生成管理员...')
         fake_admin()
 
-        click.echo('Generating %d categories...' % category)
+        click.echo('生成 %d 分类...' % category)
         fake_categories(category)
 
-        click.echo('Generating %d posts...' % post)
+        click.echo('生成 %d 文章...' % post)
         fake_posts(post)
 
-        click.echo('Generating %d comments...' % comment)
+        click.echo('生成 %d 评论...' % comment)
         fake_comments(comment)
 
-        click.echo('Generating links...')
+        click.echo('生成链接...')
         fake_links()
 
-        click.echo('Done.')
+        click.echo('构造完成...')
 
 
 def register_request_handlers(app):

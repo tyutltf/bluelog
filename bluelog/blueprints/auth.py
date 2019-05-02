@@ -1,10 +1,4 @@
-# -*- coding: utf-8 -*-
-"""
-    :author: Grey Li (李辉)
-    :url: http://greyli.com
-    :copyright: © 2018 Grey Li <withlihui@gmail.com>
-    :license: MIT, see LICENSE for more details.
-"""
+
 from flask import render_template, flash, redirect, url_for, Blueprint
 from flask_login import login_user, logout_user, login_required, current_user
 
@@ -29,9 +23,9 @@ def login():
         if admin:
             if username == admin.username and admin.validate_password(password):
                 login_user(admin, remember)
-                flash('Welcome back.', 'info')
+                flash('欢迎回来.', 'info')
                 return redirect_back()
-            flash('Invalid username or password.', 'warning')
+            flash('无效的用户名或密码.', 'warning')
         else:
             flash('No account.', 'warning')
     return render_template('auth/login.html', form=form)
@@ -41,5 +35,5 @@ def login():
 @login_required
 def logout():
     logout_user()
-    flash('Logout success.', 'info')
+    flash('退出成功.', 'info')
     return redirect_back()

@@ -1,10 +1,4 @@
-# -*- coding: utf-8 -*-
-"""
-    :author: Grey Li (李辉)
-    :url: http://greyli.com
-    :copyright: © 2018 Grey Li <withlihui@gmail.com>
-    :license: MIT, see LICENSE for more details.
-"""
+
 import unittest
 
 from flask import url_for
@@ -24,7 +18,7 @@ class BaseTestCase(unittest.TestCase):
         self.runner = app.test_cli_runner()
 
         db.create_all()
-        user = Admin(name='Grey Li', username='grey', about='I am test', blog_title='Testlog', blog_sub_title='a test')
+        user = Admin(name='ltf', username='grey', about='I am test', blog_title='Testlog', blog_sub_title='a test')
         user.set_password('123')
         db.session.add(user)
         db.session.commit()
@@ -35,7 +29,7 @@ class BaseTestCase(unittest.TestCase):
 
     def login(self, username=None, password=None):
         if username is None and password is None:
-            username = 'grey'
+            username = 'ltf1'
             password = '123'
 
         return self.client.post(url_for('auth.login'), data=dict(

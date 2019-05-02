@@ -24,8 +24,8 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarColor01">
                 <ul class="navbar-nav mr-auto">
-                    {{ render_nav_item('blog.index', 'Home') }}
-                    {{ render_nav_item('blog.about', 'About') }}
+                    {{ render_nav_item('blog.index', '主页') }}
+                    {{ render_nav_item('blog.about', '关于') }}
                 </ul>
 
                 <ul class="nav navbar-nav navbar-right">
@@ -34,36 +34,36 @@
                             <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button"
                                aria-haspopup="true"
                                aria-expanded="false">
-                                New <span class="caret"></span>
+                                新 <span class="caret"></span>
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="{{ url_for('admin.new_post') }}">Post</a>
-                                <a class="dropdown-item" href="{{ url_for('admin.new_category') }}">Category</a>
-                                <a class="dropdown-item" href="{{ url_for('admin.new_link') }}">Link</a>
+                                <a class="dropdown-item" href="{{ url_for('admin.new_post') }}">文章</a>
+                                <a class="dropdown-item" href="{{ url_for('admin.new_category') }}">分类</a>
+                                <a class="dropdown-item" href="{{ url_for('admin.new_link') }}">链接</a>
                             </div>
                         </li>
                         <li class="nav-item dropdown">
                             <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button"
                                aria-haspopup="true"
                                aria-expanded="false">
-                                Manage <span class="caret"></span>
+                                管理 <span class="caret"></span>
                                 {% if unread_comments %}
-                                    <span class="badge badge-success">new</span>
+                                    <span class="badge badge-success">新</span>
                                 {% endif %}
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="{{ url_for('admin.manage_post') }}">Post</a>
-                                <a class="dropdown-item" href="{{ url_for('admin.manage_category') }}">Category</a>
+                                <a class="dropdown-item" href="{{ url_for('admin.manage_post') }}">文章</a>
+                                <a class="dropdown-item" href="{{ url_for('admin.manage_category') }}">分类</a>
                                 <a class="dropdown-item" href="{{ url_for('admin.manage_comment') }}">
-                                    Comment
+                                    评论
                                     {% if unread_comments %}
                                         <span class="badge badge-success">{{ unread_comments }}</span>
                                     {% endif %}
                                 </a>
-                                <a class="dropdown-item" href="{{ url_for('admin.manage_link') }}">Link</a>
+                                <a class="dropdown-item" href="{{ url_for('admin.manage_link') }}">链接</a>
                             </div>
                         </li>
-                        {{ render_nav_item('admin.settings', 'Settings') }}
+                        {{ render_nav_item('admin.settings', '设置') }}
                     {% endif %}
                 </ul>
             </div>
@@ -82,17 +82,17 @@
     {% block footer %}
         <footer>
             <p class="float-left">
-                <small> &copy; 2018 <a href="http://greyli.com" title="Written by Grey Li">Grey Li</a> -
-                    <a href="https://github.com/greyli/bluelog" title="Fork me on GitHub">GitHub</a> -
+                <small> &copy; 2019 <a href="https://blog.csdn.net/ltf201834" title="Written by Ltf">TYUT-LTF</a> -
+                    <a href="https://github.com/tyutltf" title="Fork me on GitHub">GitHub</a> -
                     <a href="http://helloflask.com" title="A HelloFlask project">HelloFlask</a>
                 </small>
             </p>
             <p class="float-right">
                 <small>
                     {% if current_user.is_authenticated %}
-                        <a href="{{ url_for('auth.logout', next=request.full_path) }}">Logout</a>
+                        <a href="{{ url_for('auth.logout', next=request.full_path) }}">退出</a>
                     {% else %}
-                        <a href="{{ url_for('auth.login', next=request.full_path) }}">Login</a>
+                        <a href="{{ url_for('auth.login', next=request.full_path) }}">登录</a>
                     {% endif %}
                 </small>
             </p>

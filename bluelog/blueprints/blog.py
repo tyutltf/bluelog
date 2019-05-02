@@ -1,10 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-    :author: Grey Li (李辉)
-    :url: http://greyli.com
-    :copyright: © 2018 Grey Li <withlihui@gmail.com>
-    :license: MIT, see LICENSE for more details.
-"""
 from flask import render_template, flash, redirect, url_for, request, current_app, Blueprint, abort, make_response
 from flask_login import current_user
 
@@ -15,14 +8,14 @@ from bluelog.models import Post, Category, Comment
 from bluelog.utils import redirect_back
 
 blog_bp = Blueprint('blog', __name__)
-
+#视图函数
 
 @blog_bp.route('/')
 def index():
-    page = request.args.get('page', 1, type=int)
-    per_page = current_app.config['BLUELOG_POST_PER_PAGE']
-    pagination = Post.query.order_by(Post.timestamp.desc()).paginate(page, per_page=per_page)
-    posts = pagination.items
+    page = request.args.get('page', 1, type=int)                #从查询字符串中获取当前页数
+    per_page = current_app.config['BLUELOG_POST_PER_PAGE']      #每页数量
+    pagination = Post.query.order_by(Post.timestamp.desc()).paginate(page, per_page=per_page)  #分页对象
+    posts = pagination.items                                    #当前页数的记录列表
     return render_template('blog/index.html', pagination=pagination, posts=posts)
 
 
@@ -78,9 +71,9 @@ def show_post(post_id):
         db.session.add(comment)
         db.session.commit()
         if current_user.is_authenticated:  # send message based on authentication status
-            flash('Comment published.', 'success')
+            flash('评论发表.', 'success')
         else:
-            flash('Thanks, your comment will be published after reviewed.', 'info')
+            flash('谢谢,你的评论将在审核后发布.', 'info')
             send_new_comment_email(post)  # send notification email to admin
         return redirect(url_for('.show_post', post_id=post_id))
     return render_template('blog/post.html', post=post, pagination=pagination, form=form, comments=comments)
@@ -90,7 +83,7 @@ def show_post(post_id):
 def reply_comment(comment_id):
     comment = Comment.query.get_or_404(comment_id)
     if not comment.post.can_comment:
-        flash('Comment is disabled.', 'warning')
+        flash('评论是禁用的.', 'warning')
         return redirect(url_for('.show_post', post_id=comment.post.id))
     return redirect(
         url_for('.show_post', post_id=comment.post_id, reply=comment_id, author=comment.author) + '#comment-form')

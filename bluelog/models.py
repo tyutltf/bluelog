@@ -1,19 +1,14 @@
-# -*- coding: utf-8 -*-
-"""
-    :author: Grey Li (李辉)
-    :url: http://greyli.com
-    :copyright: © 2018 Grey Li <withlihui@gmail.com>
-    :license: MIT, see LICENSE for more details.
-"""
 from datetime import datetime
-
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
-
 from bluelog.extensions import db
 
 
 class Admin(db.Model, UserMixin):
+    '''
+    管理员模型
+    主键、用户姓名、密码散列值、博客标题、博客副标题、关于信息
+    '''
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(20))
     password_hash = db.Column(db.String(128))
@@ -30,6 +25,10 @@ class Admin(db.Model, UserMixin):
 
 
 class Category(db.Model):
+    '''
+    分类的数据库模型
+    分类不能重复，所以unique为True
+    '''
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(30), unique=True)
 
@@ -45,6 +44,9 @@ class Category(db.Model):
 
 
 class Post(db.Model):
+    '''
+    文章模型
+    '''
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(60))
     body = db.Column(db.Text)
@@ -52,12 +54,16 @@ class Post(db.Model):
     can_comment = db.Column(db.Boolean, default=True)
 
     category_id = db.Column(db.Integer, db.ForeignKey('category.id'))
-
+    #分类和评论
     category = db.relationship('Category', back_populates='posts')
     comments = db.relationship('Comment', back_populates='post', cascade='all, delete-orphan')
 
 
 class Comment(db.Model):
+    '''
+    评论模型
+    id、作者、电子邮件、站点、正文、from_admin判断是否是管理员的评论、
+    '''
     id = db.Column(db.Integer, primary_key=True)
     author = db.Column(db.String(30))
     email = db.Column(db.String(254))
