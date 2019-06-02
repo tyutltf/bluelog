@@ -1,15 +1,11 @@
 
 import unittest
-
 from flask import url_for
-
 from bluelog import create_app
 from bluelog.extensions import db
 from bluelog.models import Admin
 
-
 class BaseTestCase(unittest.TestCase):
-
     def setUp(self):
         app = create_app('testing')
         self.context = app.test_request_context()
